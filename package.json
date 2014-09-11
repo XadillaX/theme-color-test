@@ -1,0 +1,17 @@
+{
+  "name": "theme-color-test",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "algorithmjs": "^0.0.2",
+    "sugar": "^1.4.1",
+    "get-pixels": "^1.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "XadillaX",
+  "license": "GPLv2"
+}
