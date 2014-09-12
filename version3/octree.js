@@ -194,8 +194,6 @@ getPixels("pic.jpg", function(err, pixels) {
 
     var colors = {};
     colorsStats(root, colors);
-    console.log(colors);
-    console.log(Object.size(colors));
 
     var result = [];
     for(var key in colors) {
@@ -216,4 +214,3 @@ getPixels("pic.jpg", function(err, pixels) {
     fs.writeFileSync("test3.html", string, "utf8");
     console.log("done");
 });
-
