@@ -329,14 +329,9 @@ function bestfitColor(pal, r, g, b) {
 }
 
 getPixels("pic.jpg", function(err, pixels) {
-    var w = pixels._shape1;
-    var h = pixels._shape0;
-
     var colors = {};
     
     var data = pixels.data;
-    var col = 0;
-    var row = 0;
     for(var i = 0; i < data.length; i += 4) {
         var r = data.readUInt8(i);
         var g = data.readUInt8(i + 1);
@@ -353,12 +348,6 @@ getPixels("pic.jpg", function(err, pixels) {
 
         if(colors[r + g + b] === undefined) colors[r + g + b] = -1;
         colors[r + g + b]++;
-        
-        col++;
-        if(col >= w) {
-            col = 0;
-            row++;
-        }
     }
 
     console.log("bilibili~");
@@ -374,15 +363,68 @@ getPixels("pic.jpg", function(err, pixels) {
         return a.color > b.color;
     });
 
-    console.log(result);
-    console.log(result.length);
+    var string = "";
+    for(var i = 0; i < result.length; i++) {
+        string += "<div style=\"width: 50px; height: 21px; float: left; margin-right: 5px; margin-bottom: 5px; background: #" + result[i].color + "; color: #fff; font-size: 12px; text-align: center; padding-top: 9px;\">" + result[i].count + "</div>";
+    }
+
+    fs.writeFileSync("test1.html", string, "utf8");
+    console.log("done");
+});
+
+getPixels("pic.jpg", function(err, pixels) {
+    var colors = {};
+    var data = pixels.data;
+    for(var i = 0; i < data.length; i += 4) {
+        var r = data.readUInt8(i);
+        var g = data.readUInt8(i + 1);
+        var b = data.readUInt8(i + 2);
+
+        var best = 0;
+        var bestv = pal[0];
+        var bestr = Math.abs(r - bestv.r) + Math.abs(g - bestv.g) + Math.abs(b - bestv.b);
+
+        for(var j = 1; j < pal.length; j++) {
+            var p = pal[j];
+            var res = Math.abs(r - p.r) + Math.abs(g - p.g) + Math.abs(b - p.b);
+            if(res < bestr) {
+                best = j;
+                bestv = pal[j];
+                bestr = res;
+            }
+        }
+
+        r = pal[best].r.toString(16);
+        g = pal[best].g.toString(16);
+        b = pal[best].b.toString(16);
+
+        if(r.length === 1) r = "0" + r;
+        if(g.length === 1) g = "0" + g;
+        if(b.length === 1) b = "0" + b;
+
+        if(colors[r + g + b] === undefined) colors[r + g + b] = -1;
+        colors[r + g + b]++;
+    }
+
+    console.log("bilibili~");
+
+    var result = [];
+    for(var key in colors) {
+        result.push({ color: key, count: colors[key] });
+    }
+
+    result.qsort(function(a, b) {
+        if(a.count > b.count) return true;
+        if(a.count < b.count) return false;
+        return a.color > b.color;
+    });
 
     var string = "";
     for(var i = 0; i < result.length; i++) {
         string += "<div style=\"width: 50px; height: 21px; float: left; margin-right: 5px; margin-bottom: 5px; background: #" + result[i].color + "; color: #fff; font-size: 12px; text-align: center; padding-top: 9px;\">" + result[i].count + "</div>";
     }
 
-    fs.writeFileSync("test.html", string, "utf8");
+    fs.writeFileSync("test2.html", string, "utf8");
     console.log("done");
 });
 
