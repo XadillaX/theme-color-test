@@ -309,11 +309,11 @@ function bestfitColor(pal, r, g, b) {
     
     while(i < PAL_SIZE) {
         var rgb = pal[i];
-        _colDiff = colDiff[0 + ((rgb.g - g) & 0x7f)];
+        _colDiff = colDiff[0 + (Math.abs(rgb.g - g) & 0x7f)];
         if(_colDiff < lowest) {
-            _colDiff += colDiff[128 + ((rgb.r - r) & 0x7f)];
+            _colDiff += colDiff[128 + (Math.abs(rgb.r - r) & 0x7f)];
             if(_colDiff < lowest) {
-                _colDiff += colDiff[256 + ((rgb.b - b) & 0x7f)];
+                _colDiff += colDiff[256 + (Math.abs(rgb.b - b) & 0x7f)];
                 if(_colDiff < lowest) {
                     bestfit = i;
                     if(0 === _colDiff) return bestfit;
