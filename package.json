@@ -6,7 +6,7 @@
   "dependencies": {
     "algorithmjs": "^0.0.2",
     "sugar": "^1.4.1",
-    "get-pixels": "^1.1.2",
+    "get-pixels": "^3.3.3",
     "sync-runner": "^0.0.5"
   },
   "devDependencies": {},
